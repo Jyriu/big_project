@@ -1,5 +1,5 @@
 require('dotenv').config();
-const sequelize = require('./models/database');
+const sequelize = require('./config/database');
 const User = require('./models/user');
 const Student = require('./models/student');
 const Professional = require('./models/professional');
@@ -13,15 +13,15 @@ const topicRouter = require('./routes/topic_routes');
 const postRouter = require('./routes/post_routes');
 const replyRouter = require('./routes/reply_routes');
 const likeRouter = require('./routes/like_routes');
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 
 app.use('/users', userRouter);
 app.use('/topics', topicRouter);
 app.use('/posts', postRouter);
 app.use('/replies', replyRouter);
-
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Relations User-Student
 User.hasOne(Student, {
