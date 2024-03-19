@@ -12,7 +12,7 @@ exports.getRepliesForPost = async (req, res) => {
 
 exports.createReplyForPost = async (req, res) => {
     try {
-        const reply = await Reply.create({ ...req.body, postId: req.params.postId });
+        const reply = await Reply.create({ ...req.body, postId: req.params.postId, userId: req.user.id });
         res.status(201).json(reply);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -35,7 +35,7 @@ exports.getReply = async (req, res) => {
 exports.updateReply = async (req, res) => {
     try {
         const reply = await Reply.update(req.body, {
-            where: { id: req.params.id }
+            where: { id: req.params.id, userId: req.user.id }
         });
         if (reply) {
             res.status(200).json(reply);
@@ -50,7 +50,7 @@ exports.updateReply = async (req, res) => {
 exports.deleteReply = async (req, res) => {
     try {
         const reply = await Reply.destroy({
-            where: { id: req.params.id }
+            where: { id: req.params.id, userId: req.user.id }
         });
         if (reply) {
             res.status(200).json({ message: 'Reply deleted' });

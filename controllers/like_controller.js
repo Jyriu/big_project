@@ -29,7 +29,7 @@ exports.getLikesForReply = async (req, res) => {
 
 exports.deleteLike = async (req, res) => {
     try {
-        const like = await Like.destroy({ where: { id: req.params.id } });
+        const like = await Like.destroy({ where: { id: req.params.id, userId: req.user.id } });
         if (like) {
             res.status(200).json({ message: 'Like deleted' });
         } else {

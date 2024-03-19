@@ -33,6 +33,10 @@ exports.createUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ message: 'Unauthorized' });
+    }
+
     try {
         const user = await User.update(req.body, { where: { id: req.params.id } });
         if (user[0] === 0) {
@@ -46,6 +50,10 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ message: 'Unauthorized' });
+    }
+
     try {
         const user = await User.destroy({ where: { id: req.params.id } });
         if (user) {
@@ -59,67 +67,52 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.updateAvatar = async (req, res) => {
-  try {
-      const user = await User.update({ avatar: req.body.avatar }, { where: { id: req.params.id } });
-      if (user[0] === 0) {
-          res.status(404).json({ message: 'User not found' });
-      } else {
-          res.status(200).json({ message: 'Avatar updated successfully' });
-      }
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    try {
+        const user = await User.update({ avatar: req.body.avatar }, { where: { id: req.params.id } });
+        if (user[0] === 0) {
+            res.status(404).json({ message: 'User not found' });
+        } else {
+            res.status(200).json({ message: 'Avatar updated successfully' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 exports.updateBanner = async (req, res) => {
-  try {
-      const user = await User.update({ banner: req.body.banner }, { where: { id: req.params.id } });
-      if (user[0] === 0) {
-          res.status(404).json({ message: 'User not found' });
-      } else {
-          res.status(200).json({ message: 'Banner updated successfully' });
-      }
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    try {
+        const user = await User.update({ banner: req.body.banner }, { where: { id: req.params.id } });
+        if (user[0] === 0) {
+            res.status(404).json({ message: 'User not found' });
+        } else {
+            res.status(200).json({ message: 'Banner updated successfully' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 exports.updateProfile = async (req, res) => {
-  try {
-      const user = await User.update(req.body, { where: { id: req.params.id } });
-      if (user[0] === 0) {
-          res.status(404).json({ message: 'User not found' });
-      } else {
-          res.status(200).json({ message: 'Profile updated successfully' });
-      }
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-};
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ message: 'Unauthorized' });
+    }
 
-exports.register = async (req, res) => {
-  try {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      const user = await User.create({ ...req.body, password: hashedPassword });
-      res.status(201).json({ message: 'User registered successfully', user });
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-};
-
-exports.login = async (req, res) => {
-  try {
-      const user = await User.findOne({ where: { email: req.body.email } });
-      if (!user) {
-          res.status(404).json({ message: 'User not found' });
-      } else if (await bcrypt.compare(req.body.password, user.password)) {
-          // If the password is correct, send a success response
-          res.status(200).json({ message: 'Logged in successfully', user });
-      } else {
-          // If the password is incorrect, send an error response
-          res.status(401).json({ message: 'Incorrect password' });
-      }
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
+    try {
+        const user = await User.update(req.body, { where: { id: req.params.id } });
+        if (user[0] === 0) {
+            res.status(404).json({ message: 'User not found' });
+        } else {
+            res.status(200).json({ message: 'Profile updated successfully' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };

@@ -11,7 +11,11 @@ exports.getTopics = async (req, res) => {
 
 exports.createTopic = async (req, res) => {
     try {
-        const topic = await Topic.create(req.body);
+        const topicData = {
+            ...req.body,
+            userId: req.user.id,  // Ajoutez l'id de l'utilisateur aux données du sujet
+        };
+        const topic = await Topic.create(topicData);
         res.status(201).json(topic);
     } catch (error) {
         res.status(500).json({ message: error.message });
