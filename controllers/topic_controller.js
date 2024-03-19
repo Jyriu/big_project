@@ -1,3 +1,5 @@
+// tester de tout enlever et reintegrer petit a petit le code pour voir si erreur dans le fichier pour passer le test unitaire
+
 const Topic = require('../models/topic');
 
 exports.getTopics = async (req, res) => {
