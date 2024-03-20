@@ -18,4 +18,6 @@ router.put('/posts/:id', authenticateJWT, postController.updatePost);
 // Route pour supprimer un post
 router.delete('/posts/:id', authenticateJWT, postController.deletePost);
 
+// faire route pour liker et disliker un post
+
 module.exports = router;
