@@ -18,4 +18,6 @@ router.put('/:id', authenticateJWT, topicController.updateTopic);
 // Route pour supprimer un sujet
 router.delete('/:id', authenticateJWT, topicController.deleteTopic);
 
+// est-ce qu'il faut faire ces routes ? les topics seront déjà prédéfinis, à voir pour des éventuelles créations ? peut-être rôle modo ?
+
 module.exports = router;
