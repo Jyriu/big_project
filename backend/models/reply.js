@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const User = require('./user');
+const Post = require('./post');
 
 class Reply extends Model {}
 
@@ -24,6 +26,26 @@ Reply.init({
   }, {
     sequelize,
     modelName: 'Reply'
+});
+
+// Relations User-Reply
+User.hasMany(Reply, {
+    foreignKey: 'user_id',
+    as: 'replies'
+});
+Reply.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
+
+// Relations Post-Reply
+Post.hasMany(Reply, {
+    foreignKey: 'post_id',
+    as: 'replies'
+});
+Reply.belongsTo(Post, {
+    foreignKey: 'post_id',
+    as: 'post'
 });
 
 module.exports = Reply;

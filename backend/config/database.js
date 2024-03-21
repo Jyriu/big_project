@@ -1,4 +1,5 @@
 require('dotenv').config();
+const e = require('express');
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -7,14 +8,12 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 });
 
 async function createTables() {
-  const User = require('../models/user');
-  const Topic = require('../models/topic');
-
-  await User.sync({ force: true });
-  await Topic.sync({ force: true });
-  console.log('Database & tables created!');
+  await sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+  await sequelize.sync({ alter: true });
+  console.log('The tables have been created successfully.');
 }
 
-createTables().catch(console.error);
+// createTables().catch(console.error);
 
-module.exports = sequelize;
+module.exports = { sequelize, createTables};
