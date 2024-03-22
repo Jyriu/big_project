@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');
 
 class Student extends Model {}
 
@@ -28,15 +27,5 @@ Student.init({
       type: DataTypes.STRING
     }
 }, { sequelize, modelName: 'Student' });
-
-// Relations User-Student
-User.hasOne(Student, {
-    foreignKey: 'user_id',
-    as: 'student'
-});
-Student.belongsTo(User, {
-    foreignKey: 'user_id',
-    as: 'user'
-});
 
 module.exports = Student;

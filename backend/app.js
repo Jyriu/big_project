@@ -3,6 +3,19 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const sequelize = require('./config/database');
+// const { User, Topic, Post, Reply, Like, Message, Student, Professional } = require('./models');
+const User = require('./models/user');
+const Topic = require('./models/topic');
+const Post = require('./models/post');
+const Reply = require('./models/reply');
+const Like = require('./models/like');
+const Message = require('./models/message');
+const Student = require('./models/student');
+const Professional = require('./models/professional');
+
+require('./models/relations');
+
 const { createTables } = require('./config/database');
 
 createTables()
